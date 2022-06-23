@@ -1,0 +1,41 @@
+@startuml
+class Value {
+- component_1 : BigDecimal
+- component_2 : BigDecimal
+- isComplex : boolean
++ isScalar() : boolean
+}
+class Equation {
+- expression : Expression
+- result : Value
+- void evaluate()
+}
+class CalculatorApp {
++ evaluate(Expression) : Equation
+}
+class Expression {
+- operator : String
+- operand_1 : String
+- operand_2 : String
++ {static}toValue(String) : Value
+}
+class CalculatorHandler {
++ handleRequest(Expression,Context) : Equation
+}
+class "RequestHandler<I,O>" {
++ handleRequest(I,Context) : O
+}
+enum Operator {
+ADD
+SUBTRACT
+MULTIPLY
+DIVIDE
++ {static} evaluate(Operator,Value,Value) : Value
+}
+
+"RequestHandler<I,O>" <|.. CalculatorHandler
+CalculatorHandler *-- CalculatorApp
+
+Equation *- Expression
+Equation *-- Value
+@enduml
